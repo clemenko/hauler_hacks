@@ -4,7 +4,7 @@
 
 ```yaml
 mkdir /opt/hauler
-cd /ope/hauler
+cd /opt/hauler
 cat << EOF > /opt/hauler/airgap_hauler.yaml
 apiVersion: content.hauler.cattle.io/v1alpha1
 kind: Files
@@ -24,6 +24,7 @@ EOF
 ## Sync, and wait
 
 ```bash
+cd /opt/hauler
 # wait, the dvd is 10gb.
 hauler store sync -f /opt/hauler/airgap_hauler.yaml
 ```
@@ -55,10 +56,11 @@ systemctl enable --now hauler@fileserver
 ## Mount ISO to `store-files` directory
 
 ```bash
-cd /opt/hauler/store-files
+# wait for hauler store-files
+until [ -d /opt/hauler/store-files ]; do sleep 1; done ; cd /opt/hauler/store-files/
 
 # make dir
-mkdir /opt/hauler/store-files/dvd
+mkdir -p /opt/hauler/store-files/dvd
 
 # mount iso to the new dvd dir
 mount -o loop Rocky-9.3-x86_64-dvd.iso /opt/hauler/store-files/dvd
@@ -66,12 +68,11 @@ mount -o loop Rocky-9.3-x86_64-dvd.iso /opt/hauler/store-files/dvd
 
 ## Yum repo all the things
 
-On downstreams add repo  
-Change $serverIp to the correct IP or DNS for the server.
+Create repo files
 
 ```bash
-    # add repo 
-cat << EOF > /etc/yum.repos.d/hauler.repo
+serverIp=${server:-$(hostname -I | awk '{ print $1 }')}
+cat << EOF > /opt/hauler/store-files/hauler.repo
 [hauler]
 name=Hauler Air Gap Server
 baseurl=http://$serverIp:8080
@@ -83,10 +84,17 @@ baseurl=http://$serverIp:8080/dvd/BaseOS/
 enabled=1
 gpgcheck=0
 EOF
+```
 
-yum clean all
+Everything should look like:
 
-yum repolist
+![fileserver](fileserver.jpg)
+
+On downstreams add repo --> CHANGE IP/DNS!
+
+```bash
+yum-config-manager --add-repo http://$serverIP:8080/hauler.repo
+yum clean all && yum repolist
 ```
 
 ## Bonus - Index
@@ -97,12 +105,6 @@ create an inventory of files, charts, and images. VERY helpful for troubleshooti
 hauler store info -s /opt/hauler/store > /opt/hauler/store-files/_hauler_index.txt
 ```
 
-![fileserver](https://raw.githubusercontent.com/clemenko/rke_airgap_install/main/img/fileserver.jpg)
-
-
 ## Profit
 
 ![success](https://raw.githubusercontent.com/clemenko/rke_airgap_install/main/img/success.jpg)
-
-
-
