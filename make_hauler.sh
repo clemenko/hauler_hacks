@@ -12,10 +12,6 @@ export BLUE='\x1b[34m'
 export YELLOW='\x1b[33m'
 export NO_COLOR='\x1b[0m'
 
-# el version
-# set to el8 or el9
-export EL=$(rpm -q --queryformat '%{RELEASE}' rpm | grep -o "el[[:digit:]]")
-
 # check for root
 #if [ $(whoami) != "root" ] ; then echo -e "$RED" " ** please run $0 as root ** " "$NO_COLOR"; exit; fi
 
@@ -36,6 +32,9 @@ echo -e "creating hauler manifest"
 echo -e -n " - adding images "
 
 # versions
+# set to el8 or el9
+export EL=$(rpm -q --queryformat '%{RELEASE}' rpm | grep -o "el[[:digit:]]")
+# other versions
 export RKE_VERSION=$(curl -s https://update.rke2.io/v1-release/channels | jq -r '.data[] | select(.id=="stable") | .latest' | awk -F"+" '{print $1}'| sed 's/v//')
 export CERT_VERSION=$(curl -s https://api.github.com/repos/cert-manager/cert-manager/releases/latest | jq -r .tag_name)
 export RANCHER_VERSION=$(curl -s https://api.github.com/repos/rancher/rancher/releases/latest | jq -r .tag_name)
