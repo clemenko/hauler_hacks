@@ -2,7 +2,7 @@
 
 # docs https://rancherfederal.github.io/hauler-docs/docs/introduction/quickstart#using-a-hauler-manifest
 
-# mkdir /opt/hauler && cd /opt/hauler && curl -#OL https://raw.githubusercontent.com/clemenko/rke_airgap_install/main/make_hauler.sh && chmod 755 make_hauler.sh 
+# mkdir /opt/hauler && cd /opt/hauler && curl -#OL https://raw.githubusercontent.com/clemenko/hauler_hacks/main/make_hauler.sh && chmod 755 make_hauler.sh 
 
 set -ebpf
 
