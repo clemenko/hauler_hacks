@@ -119,20 +119,17 @@ metadata:
   name: rancher-files
 spec:
   files:
-    - path: https://get.rke2.io
-      name: install.sh
-    - path: https://github.com/rancher/rke2/releases/download/v$RKE_VERSION%2Brke2r1/rke2-images.linux-amd64.tar.zst
-    - path: https://github.com/rancher/rke2/releases/download/v$RKE_VERSION%2Brke2r1/rke2.linux-amd64.tar.gz
-    - path: https://github.com/rancher/rke2/releases/download/v$RKE_VERSION%2Brke2r1/sha256sum-amd64.txt
     - path: https://github.com/rancher/rke2-packaging/releases/download/v$RKE_VERSION%2Brke2r1.stable.0/rke2-common-$RKE_VERSION.rke2r1-0.$EL.x86_64.rpm
+    - path: https://github.com/rancher/rke2-packaging/releases/download/v$RKE_VERSION%2Brke2r1.stable.0/rke2-agent-$RKE_VERSION.rke2r1-0.$EL.x86_64.rpm
+    - path: https://github.com/rancher/rke2-packaging/releases/download/v$RKE_VERSION%2Brke2r1.stable.0/rke2-server-$RKE_VERSION.rke2r1-0.$EL.x86_64.rpm
     - path: https://github.com/rancher/rke2-selinux/releases/download/v0.17.stable.1/rke2-selinux-0.17-1.$EL.noarch.rpm
     - path: https://get.helm.sh/helm-$(curl -s https://api.github.com/repos/helm/helm/releases/latest | jq -r .tag_name)-linux-amd64.tar.gz
+
 EOF
 
 echo -e "$GREEN""ok" "$NO_COLOR"
 
 # https://rancherfederal.github.io/hauler-docs/docs/introduction/quickstart#using-a-hauler-manifest
-
 
 echo "-------------------------------------------------------------------------------------------"
 echo " hauler store and save: "
