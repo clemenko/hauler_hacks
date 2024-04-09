@@ -26,7 +26,6 @@ command -v hauler >/dev/null 2>&1 || { echo -e -n "$RED" " ** hauler was not fou
 # get jq if needed
 echo -e "checking jq "
 command -v jq >/dev/null 2>&1 || { echo -e -n "$RED" " ** jq was not found ** ""$NO_COLOR"; yum install epel-release -y  > /dev/null 2>&1; yum install -y jq > /dev/null 2>&1; }
-echo -e "- installed ""$GREEN""ok" "$NO_COLOR"
 
 echo -e "creating hauler manifest"
 echo -e -n " - adding images "
