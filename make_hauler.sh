@@ -16,16 +16,19 @@ export NO_COLOR='\x1b[0m'
 #if [ $(whoami) != "root" ] ; then echo -e "$RED" " ** please run $0 as root ** " "$NO_COLOR"; exit; fi
 
 # get helm if needed
-echo -e "checking helm "
+echo -e -n "checking helm "
 command -v helm >/dev/null 2>&1 || { echo -e -n "$RED" " ** helm was not found ** ""$NO_COLOR"; curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash  > /dev/null 2>&1; }
+echo -e "$GREEN""ok" "$NO_COLOR"
 
 # get hauler if needed
-echo -e "checking hauler "
+echo -e -n "checking hauler "
 command -v hauler >/dev/null 2>&1 || { echo -e -n "$RED" " ** hauler was not found ** ""$NO_COLOR"; curl -sfL https://get.hauler.dev | bash  > /dev/null 2>&1; }
+echo -e "$GREEN""ok" "$NO_COLOR"
 
 # get jq if needed
-echo -e "checking jq "
+echo -e -n "checking jq "
 command -v jq >/dev/null 2>&1 || { echo -e -n "$RED" " ** jq was not found ** ""$NO_COLOR"; yum install epel-release -y  > /dev/null 2>&1; yum install -y jq > /dev/null 2>&1; }
+echo -e "$GREEN""ok" "$NO_COLOR"
 
 echo -e "creating hauler manifest"
 echo -e -n " - adding images "
@@ -135,7 +138,7 @@ echo " hauler store and save: "
 echo " "
 echo -e " -$BLUE hauler store sync -f airgap_hauler.yaml$NO_COLOR"
 echo -e " -$BLUE rsync -avP $(which hauler) . $NO_COLOR"
-echo -e " -$BLUE tar -czf /opt/hauler_airgap_$(date '+%m_%d_%y').tar.gz $(ls) $NO_COLOR"
+echo -e " -$BLUE tar -czf /opt/hauler_airgap_$(date '+%m_%d_%y').tar.gz \$(ls) $NO_COLOR"
 echo " "
 echo " hauler docs: https://rancherfederal.github.io/hauler-docs/ "
 echo " hauler repo: https://github.com/rancherfederal/hauler "
